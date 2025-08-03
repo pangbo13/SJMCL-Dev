@@ -129,7 +129,7 @@ jobs:
         id: changelog
         run: |
           npm install -g conventional-changelog-cli
-          conventional-changelog -p angular -u -r 2 > release-notes.md
+          conventional-changelog -p angular -u -r 1 > release-notes.md
           cat release-notes.md
         shell: bash
 
