@@ -126,7 +126,8 @@ jobs:
       - name: Generate Changelog
         id: changelog
         run: |
-          pnpm conventional-changelog -p angular -u -r 2 > release-notes.md
+          npm install -g conventional-changelog-cli
+          conventional-changelog -p angular -u -r 2 > release-notes.md
           cat release-notes.md
         shell: bash
 
