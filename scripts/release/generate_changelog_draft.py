@@ -5,7 +5,7 @@ from packaging.version import Version
 
 OWNER = "UNIkeEN"
 REPO = "SJMCL"
-TAG_PATTERN = re.compile(r"^v(\d+\.\d+\.\d+)$")  # 只匹配如v1.2.3
+TAG_PATTERN = re.compile(r"^v(.+)$")  # 版本号以v开始
 
 def get_emoji(msg):
     msg_lower = msg.lower()

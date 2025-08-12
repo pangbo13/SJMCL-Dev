@@ -129,7 +129,7 @@ jobs:
         id: changelog
         run: |
           pip install requests packaging
-          python scripts/changelog/generate_changelog.py > release-notes.md
+          python scripts/release/generate_changelog_draft.py > release-notes.md
         shell: bash
 
       - name: Create Release
