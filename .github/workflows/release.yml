@@ -85,6 +85,7 @@ jobs:
 
   Create-Release:
     needs: [Version-Check, Build-and-Release, Code-Sign-macOS]
+    if: ${{ !cancelled() && needs.Build-and-Release.result == 'success' }}
     runs-on: ubuntu-latest
     
     steps:
@@ -100,6 +101,7 @@ jobs:
           merge-multiple: true
 
       - name: Download signed macOS artifacts
+        if: ${{ needs.Code-Sign-macOS.result == 'success' }}
         uses: actions/download-artifact@v4
         with:
           pattern: 'SJMCL_${{ needs.Version-Check.outputs.version }}_macos_*_signed'
@@ -133,6 +135,10 @@ jobs:
           SJMC_DEPLOY_API: ${{ secrets.SJMC_DEPLOY_API }}
           SJMC_DEPLOY_PROJECT: ${{ secrets.SJMC_DEPLOY_PROJECT }}
         run: |
+          if [ -z "${SJMC_SECRET_KEY}" ]; then
+            echo "SJMC_SECRET_KEY not set, skipping upload to remote server."
+            exit 0
+          fi
           bash scripts/release/upload_to_sjmc_server.sh
         shell: bash
 
