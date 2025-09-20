@@ -80,6 +80,7 @@ jobs:
       MACOS_NOTARY_APPLE_ID: ${{ secrets.MACOS_NOTARY_APPLE_ID }}
       MACOS_NOTARY_PASSWORD: ${{ secrets.MACOS_NOTARY_PASSWORD }}
       MACOS_NOTARY_TEAM_ID: ${{ secrets.MACOS_NOTARY_TEAM_ID }}
+    continue-on-error: true   # 允许签名失败
 
   Create-Release:
     needs: [Version-Check, Build-and-Release, Code-Sign-macOS]
@@ -98,6 +99,8 @@ jobs:
           merge-multiple: true
 
       - name: Download signed macOS artifacts
+        if: always()
+        continue-on-error: true
         uses: actions/download-artifact@v4
         with:
           pattern: 'SJMCL_${{ needs.Version-Check.outputs.version }}_macos_*_signed'
@@ -113,15 +116,19 @@ jobs:
           # Copy non-macOS artifacts
           find artifacts -name "SJMCL_${{ env.VERSION }}_windows_*" -exec cp {} release-artifacts/ \;
           find artifacts -name "SJMCL_${{ env.VERSION }}_linux_*" -exec cp {} release-artifacts/ \;
-          
-          # Copy signed macOS artifacts (rename to remove _signed suffix)
-          find artifacts-signed -name "SJMCL_${{ env.VERSION }}_macos_*" -type f | while read file; do
-            basename=$(basename "$file")
-            # Remove _signed suffix before the file extension
-            newname=$(echo "$basename" | sed 's/_signed\./\./')
-            cp "$file" "release-artifacts/$newname"
-          done
-          
+
+          # Copy signed macOS artifacts（如果存在）
+          if [ -d artifacts-signed ] && compgen -G "artifacts-signed/SJMCL_${{ env.VERSION }}_macos_*" > /dev/null; then
+            find artifacts-signed -name "SJMCL_${{ env.VERSION }}_macos_*" -type f | while read file; do
+              basename=$(basename "$file")
+              # Remove _signed suffix before the file extension
+              newname=$(echo "$basename" | sed 's/_signed\./\./')
+              cp "$file" "release-artifacts/$newname"
+            done
+          else
+            echo "No signed macOS artifacts found, skipping macOS artifacts."
+          fi
+
           echo "Final release artifacts:"
           ls -la release-artifacts/
 
