@@ -85,7 +85,9 @@
     },
     "windows": {
       "nsis": {
-        "displayLanguageSelector": true
+        "displayLanguageSelector": true,
+        "installerIcon": "assets/icons/icon.ico",
+        "languages": ["SimpChinese", "English"]
       }
     },
     "resources": [
