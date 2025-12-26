@@ -90,9 +90,7 @@ jobs:
 
       - name: Install frontend dependencies
         run: |
-          npm install -g pnpm
-          pnpm import
-          pnpm install
+          npm install
 
       - name: Remove Font files (MacOS)
         if: matrix.platform == 'macos'
@@ -108,13 +106,13 @@ jobs:
 
       - name: Build the app (MacOS)
         if: matrix.platform == 'macos'
-        run: pnpm run tauri build --bundles app --target ${{ matrix.target }}
+        run: npm run tauri build -- --bundles app --target ${{ matrix.target }}
         env:
           SJMCL_CURSEFORGE_API_KEY: ${{ secrets.SJMCL_CURSEFORGE_API_KEY }}
 
       - name: Build the app
         if: matrix.platform != 'macos'
-        run: pnpm run tauri build --target ${{ matrix.target }}
+        run: npm run tauri build -- --target ${{ matrix.target }}
         env:
           SJMCL_CURSEFORGE_API_KEY: ${{ secrets.SJMCL_CURSEFORGE_API_KEY }}
 
