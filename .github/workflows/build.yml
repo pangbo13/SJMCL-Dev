@@ -104,14 +104,7 @@ jobs:
           workspaces: "./src-tauri -> target"
           key: ${{ matrix.platform }}-${{ matrix.target }}
 
-      - name: Build the app (MacOS)
-        if: matrix.platform == 'macos'
-        run: npm run tauri build -- --bundles app --target ${{ matrix.target }}
-        env:
-          SJMCL_CURSEFORGE_API_KEY: ${{ secrets.SJMCL_CURSEFORGE_API_KEY }}
-
       - name: Build the app
-        if: matrix.platform != 'macos'
         run: npm run tauri build -- --target ${{ matrix.target }}
         env:
           SJMCL_CURSEFORGE_API_KEY: ${{ secrets.SJMCL_CURSEFORGE_API_KEY }}

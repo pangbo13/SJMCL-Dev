@@ -65,8 +65,7 @@
       "rpm",
       "appimage",
       "nsis",
-      "app",
-      "dmg"
+      "app"
     ],
     "category": "Game",
     "icon": [
@@ -92,11 +91,11 @@
     },
     "windows": {
       "nsis": {
-        "displayLanguageSelector": true,
         "installerIcon": "assets/icons/icon.ico",
         "languages": [
+          "English",
           "SimpChinese",
-          "English"
+          "TradChinese"
         ]
       }
     },
