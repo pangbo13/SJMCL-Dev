@@ -18,7 +18,7 @@ on:
         description: 'Git branch to checkout'
         required: false
         type: string
-        default: 'main'
+        default: '' # leave empty to use the triggering ref
     secrets:
       SJMCL_CURSEFORGE_API_KEY:
         required: true
@@ -63,7 +63,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: ${{ inputs.branch }}
+          ref: ${{ inputs.branch || github.ref || 'main' }} 
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
