@@ -185,7 +185,8 @@ const AboutSettingsPage = () => {
         {
           title: t("AboutSettingsPage.legalInfo.settings.copyright.title"),
           description: t(
-            "AboutSettingsPage.legalInfo.settings.copyright.description"
+            "AboutSettingsPage.legalInfo.settings.copyright.description",
+            { currentYear: new Date().getFullYear() }
           ),
           children: <></>,
         },
