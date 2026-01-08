@@ -182,6 +182,7 @@ jobs:
         run: |
           SHA256SUMS_FILE=SHA256SUMS_${{ env.VERSION }}.txt
           cp SHA256SUMS.txt release-artifacts/${SHA256SUMS_FILE}
+          ls -la release-artifacts/
           bash scripts/release/upload_to_sjmc_server.sh
           rm release-artifacts/${SHA256SUMS_FILE}
         shell: bash
